@@ -10,7 +10,6 @@ from chomp import browser, clean
 
 
 # WordPress API Settings
-DATE_FORMAT_WP = ''
 WP_API_URL = '/wp-json/wp/v2/'
 WP_PAGES_URL = 'pages?search={query}&sentence=1'
 WP_POSTS_URL = 'posts?search={query}&sentence=1'
@@ -37,13 +36,12 @@ def is_wordpress_url(url):
     return False
 
 
-def scrape_url(url, query):
+def get_api_results(url, query):
     """ Collects articles from a WordPress site via the API.
     """
 
     log = getLogger(__name__)
     chomp_urls = []
-    results = []
 
     url = url.rstrip('/')
     log.info('Querying "%s" using WordPress API at: %s', query, url)
@@ -62,17 +60,13 @@ def scrape_url(url, query):
             
             log.debug('Collecting: %s', response['link'])
 
-            # Skip it if we already have it.
-            if response['link'] in [r['url'] for r in results]:
-                log.debug('Skipping (duplicate).')
-                continue
-
             yield dict(
                 slug=response['slug'],
                 date=clean.from_datetime_str(response['date']),
                 title=clean.from_html(response['title']['rendered']),
                 url=response['link'],
+                search_url=chomp_url,
                 content=clean.from_html(response['content']['rendered'])
             )
 
-    log.info('Done.')
+    log.info('Finished query "%s" using WordPress API at: %s', query, url)

@@ -56,4 +56,4 @@ def from_datetime_str(dirty):
         return dateparser.parse(dirty).strftime(DATE_FORMAT)
     except:
         log.debug('Error parsing date: %s', dirty)
-        return None
+        return ''
