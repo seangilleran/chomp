@@ -25,10 +25,8 @@ def get_webdriver(grid_url):
     """
 
     capabilities = webdriver.DesiredCapabilities.CHROME
-    __webdriver = webdriver.Remote(
+    return webdriver.Remote(
         desired_capabilities=capabilities, command_executor=grid_url)
-
-    return __webdriver
 
 
 def get_json_from_url(url):

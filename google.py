@@ -32,9 +32,8 @@ GOOGLE_URL_STOPWORDS = [
     '/es/',
     '/fr/',
     '/de/',
-    '/tamil/']
-CONTENT_TAG = 'p'
-CONTENT_LENGTH_MIN = 75
+    '/tamil/'
+]
 
 
 def get_web_results(url, query, driver=None):
